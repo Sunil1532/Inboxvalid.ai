@@ -1,0 +1,31 @@
+# Render blueprint. Deploy with: New > Blueprint > point at this repo.
+#
+# Note the commands run from the REPO ROOT, not from server/. That is
+# deliberate: server/src imports ../../shared/*, so setting Render's
+# "Root Directory" to server/ would put those files outside the build context
+# and the deploy would fail on a module-not-found. Using --prefix keeps the
+# whole repo visible while still installing and running only the server.
+services:
+  - type: web
+    name: inboxvalid-api
+    runtime: node
+    plan: free
+    buildCommand: npm --prefix server install
+    startCommand: npm --prefix server start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.11.0
+      # Render injects PORT itself; config.js reads it.
+      - key: CORS_ORIGINS
+        # '*' is correct for a public widget endpoint that any customer embeds.
+        # Narrow this to your Vercel domain if the API is meant to be private.
+        value: "*"
+      - key: DNS_SERVERS
+        value: 1.1.1.1,8.8.8.8
+      - key: DNS_TIMEOUT_MS
+        value: "1500"
+      # Leave MONGO_URL unset to use the in-memory store. Set it to an Atlas
+      # connection string to share cache + domain list across instances.
+      - key: MONGO_URL
+        sync: false
