@@ -6,8 +6,8 @@ actually cost you customers, and blocks the obviously broken ones before the for
 The rule I built everything around: it should never make a signup form slower or less reliable than
 it was without the widget.
 
-**Live demo:** _add your Vercel URL_
-**API:** _add your Render URL_
+**Live demo:** https://inboxvalid-ai.vercel.app/
+
 
 ---
 
@@ -16,8 +16,8 @@ it was without the widget.
 ```bash
 npm run install:all
 npm run build        # bundles the widget
-npm start            # API on :4000        (terminal 1)
-npm run dev:demo     # demo on :5173       (terminal 2)
+npm start            # API on :4000        
+npm run dev:demo     # demo on :5173      
 npm test             # 36 tests
 ```
 
