@@ -196,14 +196,6 @@ export default function App() {
           </p>
         </section>
       </main>
-
-      <footer className="foot">
-        <p>
-          The same <code>shared/</code> modules run in this browser and in the Express API. The server
-          adds the full disposable list and the DNS layer; the browser carries the head of the list so
-          the common case never leaves the page.
-        </p>
-      </footer>
     </div>
   );
 }
