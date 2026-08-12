@@ -1,0 +1,16 @@
+{
+  "name": "inboxvalid-widget",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/inboxvalid.esm.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "size": "node build.mjs && gzip -c dist/inboxvalid.min.js | wc -c",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "jsdom": "^30.0.1"
+  }
+}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>InboxValid — script tag embed</title>
+  <style>
+    /* Intentionally a completely different look from the React demo: the point
+       of this page is that the widget adopts the host's styling and only
+       borrows colours through --iv-* variables. */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #14110f;
+      color: #f2ece4;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .box {
+      width: min(420px, 90vw);
+      padding: 40px;
+      background: #1d1916;
+      border: 1px solid #3a322b;
+      border-radius: 3px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.02em; }
+    p.sub { margin: 0 0 28px; font-size: 0.875rem; color: #9d9186; font-style: italic; }
+    label { display: block; margin-bottom: 20px; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: #9d9186; }
+    input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: #f2ece4;
+      background: #14110f;
+      border: 1px solid #4a4139;
+      border-radius: 2px;
+    }
+    input:focus { outline: none; border-color: #c8a267; }
+    button {
+      width: 100%;
+      padding: 11px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #14110f;
+      background: #c8a267;
+      border: 0;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    #log { margin-top: 24px; font-family: ui-monospace, monospace; font-size: 0.75rem; color: #6f645a; white-space: pre-wrap; }
+
+    /* Theme the widget without touching its source. */
+    :root {
+      --iv-color-valid: #7fb069;
+      --iv-color-invalid: #d1685f;
+      --iv-color-risky: #c8a267;
+      --iv-color-muted: #9d9186;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Subscribe</h1>
+    <p class="sub">No build step. One script tag.</p>
+
+    <form>
+      <label>
+        Email address
+        <input type="email" name="email" placeholder="you@company.com" autocomplete="email" />
+      </label>
+      <button type="submit">Subscribe</button>
+    </form>
+
+    <div id="log">events will appear here</div>
+  </div>
+
+  <!--
+    The whole integration. The widget finds input[type="email"] on its own,
+    attaches, renders its own message element, and guards form submission.
+  -->
+  <script
+    src="../dist/inboxvalid.min.js"
+    data-iv-auto
+    data-iv-endpoint="http://localhost:4000/v1/validate"
+    data-iv-debounce="250"
+    data-iv-block-submit="hard"></script>
+
+  <script>
+    // Optional: listen in on verdicts without importing anything.
+    const log = document.getElementById('log');
+    document.addEventListener('inboxvalid:change', (event) => {
+      const { state, code, source } = event.detail;
+      log.textContent = `state=${state}\ncode=${code ?? '-'}\nanswered by=${source ?? '-'}`;
+    });
+
+    document.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      log.textContent = 'submitted — the widget let this one through';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "inboxvalid-realtime-widget",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Real-time email validation widget + API (Tvaram / InboxValid.ai assignment, Task 1)",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix widget install && npm --prefix demo install",
+    "build": "npm --prefix widget run build",
+    "start": "npm --prefix server start",
+    "dev:api": "npm --prefix server run dev",
+    "dev:demo": "npm --prefix demo run dev",
+    "test": "npm --prefix server test && npm --prefix widget test"
+  }
+}
